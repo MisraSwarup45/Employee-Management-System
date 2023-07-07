@@ -1,37 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './List.css';
 
 const List = () => {
-  // Sample employee data
-  const employeeData = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      designation: 'Software Engineer',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'janesmith@example.com',
-      designation: 'UX Designer',
-    },
-    // Add more employee data as needed
-  ];
+  const [employeeData, setEmployeeData] = useState([]);
+
+  useEffect(() => {
+    getEmployeeData();
+  }, []);
+
+  const getEmployeeData = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/create');
+      const data = await response.json();
+      setEmployeeData(data);
+    } catch (error) {
+      console.error('Error fetching employee data:', error);
+    }
+  };
 
   const handleEdit = (id) => {
-    // Handle edit logic here
     console.log('Edit employee:', id);
+    // Handle edit logic here
   };
 
-  const handleDelete = (id) => {
-    // Handle delete logic here
-    console.log('Delete employee:', id);
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:3001/delete/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data); // Verify the response data
+      console.log("Hi, called from reload");
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
   };
+  
+  
 
   const handleView = (id) => {
-    // Handle view logic here
     console.log('View employee:', id);
+    // Handle view logic here
   };
 
   return (
@@ -55,7 +69,7 @@ const List = () => {
               <td className="options-buttons">
                 <button className="view-button" onClick={() => handleView(employee.id)}>View</button>
                 <button className="edit-button" onClick={() => handleEdit(employee.id)}>Edit</button>
-                <button className="delete-button" onClick={() => handleDelete(employee.id)}>Delete</button>
+                <button className="delete-button" onClick={(e) => handleDelete(e, employee.id)}>Delete</button>
               </td>
             </tr>
           ))}
