@@ -17,10 +17,24 @@ const Form = () => {
     setEmployeeData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Submitted:', employeeData);
+    await fetch('http://localhost:3001/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employeeData),
+    });
+    setEmployeeData({
+      name: '',
+      email: '',
+      designation: '',
+      age: '',
+      gender: '',
+      address: '',
+      description: '',
+    });
   };
 
   return (
