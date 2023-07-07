@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Form.css';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
+  const navigate = useNavigate();
   const [employeeData, setEmployeeData] = useState({
     name: '',
     email: '',
@@ -35,6 +37,7 @@ const Form = () => {
       address: '',
       description: '',
     });
+    navigate('/list');
   };
 
   return (

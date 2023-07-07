@@ -1,17 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Details.css';
+import { useParams } from 'react-router-dom';
 
 const Details = () => {
   // Sample employee data
-  const employeeData = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    designation: 'Software Engineer',
-    age: '30',
-    gender: 'Male',
-    address: '123 Main Street, City',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  };
+  const { id } = useParams();
+  // const navigate = useNavigate();
+  const [employeeData, setEmployeeData] = useState({
+    name: '',
+    email: '',
+    designation: '',
+    age: '',
+    gender: '',
+    address: '',
+    description: '',
+  });
+
+  useEffect(() => {
+    const Getuser = async () => {
+      const apiUrl = `http://localhost:3001/create/${id}`;
+      await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then((res) => res.json())
+        .then((data) => { setEmployeeData(data[0]);})
+        .catch((err) => { console.log(err); })
+    }
+    Getuser();
+  }, [id]);
+
 
   return (
     <div className="details-container">

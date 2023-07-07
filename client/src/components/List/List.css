@@ -80,3 +80,7 @@
     }
   }
   
+  .editLink{
+    text-decoration: none;
+    color: white;
+  }
