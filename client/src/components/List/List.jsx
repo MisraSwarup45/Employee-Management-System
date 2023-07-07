@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './List.css';
+import { Link } from 'react-router-dom';
 
 const List = () => {
   const [employeeData, setEmployeeData] = useState([]);
@@ -29,13 +30,10 @@ const List = () => {
       const response = await fetch(`http://localhost:3001/delete/${id}`, {
         method: 'DELETE',
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      if (response.status === 200) {
+        console.log('Employee deleted successfully');
+        getEmployeeData();
       }
-      const data = await response.json();
-      console.log(data); // Verify the response data
-      console.log("Hi, called from reload");
-      window.location.reload();
     } catch (error) {
       console.error('Error deleting employee:', error);
     }
@@ -67,8 +65,8 @@ const List = () => {
               <td>{employee.email}</td>
               <td>{employee.designation}</td>
               <td className="options-buttons">
-                <button className="view-button" onClick={() => handleView(employee.id)}>View</button>
-                <button className="edit-button" onClick={() => handleEdit(employee.id)}>Edit</button>
+                <button className="view-button" > <Link className='editLink' to={`/details/${employee.id}`}>View</Link> </button>
+                <button className="edit-button" ><Link className='editLink' to={`/edit/${employee.id}`}>Edit</Link> </button>
                 <button className="delete-button" onClick={(e) => handleDelete(e, employee.id)}>Delete</button>
               </td>
             </tr>
