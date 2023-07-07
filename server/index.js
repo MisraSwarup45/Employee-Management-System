@@ -22,7 +22,7 @@ db.connect((err) => {
     }
 
     const createTableQuery = `CREATE TABLE IF NOT EXISTS employees (
-        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         designation VARCHAR(255) NOT NULL,

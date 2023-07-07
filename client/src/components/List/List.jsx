@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './List.css';
 import { Link } from 'react-router-dom';
+import Footer from '../Footer/Footer';
 
 const List = () => {
   const [employeeData, setEmployeeData] = useState([]);
@@ -19,10 +20,6 @@ const List = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    console.log('Edit employee:', id);
-    // Handle edit logic here
-  };
 
   const handleDelete = async (e, id) => {
     e.preventDefault();
@@ -37,13 +34,6 @@ const List = () => {
     } catch (error) {
       console.error('Error deleting employee:', error);
     }
-  };
-  
-  
-
-  const handleView = (id) => {
-    console.log('View employee:', id);
-    // Handle view logic here
   };
 
   return (
@@ -65,14 +55,15 @@ const List = () => {
               <td>{employee.email}</td>
               <td>{employee.designation}</td>
               <td className="options-buttons">
-                <button className="view-button" > <Link className='editLink' to={`/details/${employee.id}`}>View</Link> </button>
-                <button className="edit-button" ><Link className='editLink' to={`/edit/${employee.id}`}>Edit</Link> </button>
+                <Link className='editLink' to={`/details/${employee.id}`}><button className="view-button" >View</button></Link>
+                <Link className='editLink' to={`/edit/${employee.id}`}><button className="edit-button" >Edit</button></Link>
                 <button className="delete-button" onClick={(e) => handleDelete(e, employee.id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <Footer />
     </div>
   );
 };

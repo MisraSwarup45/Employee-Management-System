@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../Footer/Footer';
 
 const Edit = () => {
   const { id } = useParams();
@@ -141,6 +142,7 @@ const Edit = () => {
           Update
         </button>
       </form>
+      <Footer />
     </div>
   );
 };
