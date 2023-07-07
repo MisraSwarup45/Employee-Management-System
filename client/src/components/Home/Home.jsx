@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
+import Footer from '../Footer/Footer';
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

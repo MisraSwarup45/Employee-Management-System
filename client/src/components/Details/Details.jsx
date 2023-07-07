@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './Details.css';
 import { useParams } from 'react-router-dom';
+import Footer from '../Footer/Footer';
 
 const Details = () => {
   // Sample employee data
@@ -58,6 +59,7 @@ const Details = () => {
           <strong className="detail-label">Description:</strong> {employeeData.description}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
