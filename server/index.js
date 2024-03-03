@@ -22,7 +22,7 @@ db.connect((err) => {
     }
 
     const createTableQuery = `CREATE TABLE IF NOT EXISTS employees (
-        id INT NOT NULL PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         designation VARCHAR(255) NOT NULL,
@@ -42,8 +42,8 @@ db.connect((err) => {
     });
 });
 
-app.get('/create', (req, res) => {
-    const employeeData = `SELECT * FROM employees`
+app.get('/create',  (req, res) => {
+    const employeeData = `SELECT * FROM employees`;
     db.query(employeeData, (error, results) => {
         if (error) {
             console.error('Error fetching employee data: ', error);
@@ -52,14 +52,13 @@ app.get('/create', (req, res) => {
             console.log('Employee data fetched successfully.');
             res.status(200).send(results);
         }
-    })
+    });
 });
 
 app.get('/create/:id', (req, res) => {
-    const id = req.params.id;
-    console.log('Employee id: ', id);
-    const employeeData = `SELECT * FROM employees WHERE id=${id}`
-    db.query(employeeData, (error, results) => {
+    const { id } = req.params;
+    const employeeData = `SELECT * FROM employees WHERE id=?`;
+    db.query(employeeData, [id], (error, results) => {
         if (error) {
             console.error('Error fetching employee data: ', error);
             res.status(500).send('Error fetching employee data');
@@ -67,20 +66,20 @@ app.get('/create/:id', (req, res) => {
             console.log('Employee data fetched successfully.');
             res.status(200).send(results);
         }
-    })
+    });
 });
 
-app.post('/create', (req, res) => {
+app.post('/create',(req, res) => {
     console.log('Request body: ', req.body);
     const { name, email, designation, age, gender, address, description } = req.body;
     const employee = {
-        name: name,
-        email: email,
-        designation: designation,
-        age: age,
-        gender: gender,
-        address: address,
-        description: description
+        name,
+        email,
+        designation,
+        age,
+        gender,
+        address,
+        description
     };
 
     const insertQuery = 'INSERT INTO employees SET ?';
@@ -97,8 +96,8 @@ app.post('/create', (req, res) => {
 
 app.delete('/delete/:id', (req, res) => {
     const { id } = req.params;
-    const deleteQuery = `DELETE FROM employees WHERE id=${id}`;
-    db.query(deleteQuery, (error, results) => {
+    const deleteQuery = `DELETE FROM employees WHERE id=?`;
+    db.query(deleteQuery, [id], (error, results) => {
         if (error) {
             console.error('Error deleting employee record: ', error);
             res.status(500).send('Error deleting employee record');
@@ -111,8 +110,8 @@ app.delete('/delete/:id', (req, res) => {
 
 app.put('/update/:id', (req, res) => {
     const { id } = req.params;
-    const updateQuery = `UPDATE employees SET ? WHERE id=${id}`;
-    db.query(updateQuery, req.body, (error, results) => {
+    const updateQuery = `UPDATE employees SET ? WHERE id=?`;
+    db.query(updateQuery, [req.body, id], (error, results) => {
         if (error) {
             console.error('Error updating employee record: ', error);
             res.status(500).send('Error updating employee record');
